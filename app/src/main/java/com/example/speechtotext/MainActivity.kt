@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
 import android.speech.RecognizerIntent
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -41,7 +42,9 @@ class MainActivity : AppCompatActivity() {
             REQ_CODE -> {
                 if (resultCode == RESULT_OK && data != null) {
                     val result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-                    textView.text = result?.get(0)
+                    intent = Intent(this@MainActivity, EmailActivity::class.java)
+                    intent.putExtra("MENSAJE", result.toString())
+                    startActivity(intent)
                 }
             }
         }

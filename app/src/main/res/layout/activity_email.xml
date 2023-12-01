@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".EmailActivity">
+
+    <!--CORREO ELECTRONICO-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/contentHeigh"
+        android:text="@string/to" />
+
+    <EditText
+        android:id="@+id/textEmailTo"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:inputType="textEmailAddress"
+        android:text="@string/Email" />
+
+    <!--TEMA DEL CORREO-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/contentHeigh"
+        android:text="@string/TextViewSubject" />
+
+    <TextView
+        android:id="@+id/textEmailSubject"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/contentHeigh"
+        android:text="@string/msgSubject" />
+
+    <!--MENSAJE DEL CORREO-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/contentHeigh"
+        android:text="@string/TextViewMessage" />
+
+    <TextView
+        android:id="@+id/textEmailMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/msgMessage"
+        android:lines="10"
+        android:gravity="start|top"/>
+
+    <!--BOTON ENVIAR-->
+    <Button
+        android:id="@+id/emailButtonSend"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="@string/enviar" />
+
+
+</LinearLayout>

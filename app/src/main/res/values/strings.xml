@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">SpeechToText</string>
+
+    <string name="to">To:</string>
+    <string name="Email">danielbuenonavarro@gmail.com</string>
+    <string name="TextViewSubject">Subject:</string>
+    <string name="msgSubject">Ponme un 10</string>
+    <string name="TextViewMessage">Message:</string>
+    <string name="msgMessage">Mensaje</string>
+    <string name="enviar">SEND</string>
 </resources>
