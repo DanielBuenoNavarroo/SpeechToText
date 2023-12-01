@@ -13,12 +13,11 @@
         android:layout_height="@dimen/contentHeigh"
         android:text="@string/to" />
 
-    <EditText
+    <TextView
         android:id="@+id/textEmailTo"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:inputType="textEmailAddress"
-        android:text="@string/Email" />
+        android:layout_height="@dimen/contentHeigh"
+        android:text=""/>
 
     <!--TEMA DEL CORREO-->
     <TextView
@@ -30,7 +29,7 @@
         android:id="@+id/textEmailSubject"
         android:layout_width="match_parent"
         android:layout_height="@dimen/contentHeigh"
-        android:text="@string/msgSubject" />
+        android:text=""/>
 
     <!--MENSAJE DEL CORREO-->
     <TextView
@@ -42,7 +41,6 @@
         android:id="@+id/textEmailMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/msgMessage"
         android:lines="10"
         android:gravity="start|top"/>
 

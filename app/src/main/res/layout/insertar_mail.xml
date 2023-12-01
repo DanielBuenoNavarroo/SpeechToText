@@ -33,7 +33,7 @@
         android:text="Dime tu correo" />
 
     <Button
-        android:id="@+id/buttonSpeak"
+        android:id="@+id/buttonSpeakMail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textCorreo"
