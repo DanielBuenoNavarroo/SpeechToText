@@ -4,7 +4,7 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
 import android.speech.RecognizerIntent
-import android.widget.Button
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         textView = findViewById(R.id.text)
         val speak: ImageView = findViewById(R.id.speak)
 
@@ -41,9 +42,14 @@ class MainActivity : AppCompatActivity() {
         when (requestCode) {
             REQ_CODE -> {
                 if (resultCode == RESULT_OK && data != null) {
-                    val result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+                    var result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).toString()
+                    result = result.substring(1, result.length - 1) // Se hace un substring porque viene en formato [texto] y le queremos quitar los corchetes
+
+                    // ESTO ES PARA VER SI EL MENSAJE SE RECOGE CORRECTAMENTE, ELIMINAR CUANDO ENTREGUEMOS
+                    Log.i("Mensaje", result) // filtrar por Mensaje en el logcat
+
                     intent = Intent(this@MainActivity, EmailActivity::class.java)
-                    intent.putExtra("MENSAJE", result.toString())
+                    intent.putExtra("MENSAJE", result)
                     startActivity(intent)
                 }
             }

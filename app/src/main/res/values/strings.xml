@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">SpeechToText</string>
 
+    <!--STRINGS DE EmailActivity-->
     <string name="to">To:</string>
     <string name="Email">danielbuenonavarro@gmail.com</string>
     <string name="TextViewSubject">Subject:</string>
