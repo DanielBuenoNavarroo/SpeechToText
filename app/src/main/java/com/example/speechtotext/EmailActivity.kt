@@ -2,6 +2,7 @@ package com.example.speechtotext
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.util.Log
@@ -99,34 +100,30 @@ class EmailActivity : AppCompatActivity() {
     private fun emailActivity(){
         setContentView(R.layout.activity_email)
 
-        Log.i("Mensaje", "empezado")
         textTo = findViewById(R.id.textEmailTo)
         textTo.text = correo
-        Log.i("Mensaje", "textTo :)")
         textSubject = findViewById(R.id.textEmailSubject)
         textSubject.text = tema
-        Log.i("Mensaje", "textSubject :)")
         editTextMessage = findViewById(R.id.textEmailMessage)
         editTextMessage.text = mensaje
-        Log.i("Mensaje", "textMessage :)")
         btnSend = findViewById(R.id.emailButtonSend)
-        Log.i("Mensaje", "terminado")
         btnSend.setOnClickListener {
             sendMail()
         }
     }
 
     private fun sendMail() {
-        val mail = editTextMessage.text.toString()
+        val mail = arrayOf("danielbuenonavarro@gmail.com")
+        //editTextMessage.text.toString()
         val subject = textSubject.text.toString()
         val message = editTextMessage.text.toString()
 
         intent = Intent(Intent.ACTION_SEND)
-        intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(mail))
+        intent.putExtra(Intent.EXTRA_EMAIL, mail)
         intent.putExtra(Intent.EXTRA_SUBJECT, subject)
         intent.putExtra(Intent.EXTRA_TEXT, message)
-
         intent.type = "message/rfc822"
+
         startActivity(Intent.createChooser(intent, "Elige una aplicación para enviar el mensaje"))
     }
 
