@@ -2,7 +2,6 @@ package com.example.speechtotext
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.util.Log
@@ -18,8 +17,6 @@ class EmailActivity : AppCompatActivity() {
 
     // VARIABLES UTILIZADAS EN insertar_mail.xml, insertar_subject.xml y insertar_message.xml
     private lateinit var textViewTexto : TextView
-    private lateinit var btnSpeak : Button
-    private lateinit var btnSiguiente : Button
 
     // VARIABLES UTILIZADAS EN activity_mail.xml
     private lateinit var textTo: TextView
@@ -28,31 +25,37 @@ class EmailActivity : AppCompatActivity() {
     private lateinit var btnSend: Button
 
     // VARIABLES DEL CORREO
-    private lateinit var correo : String
+    private val correo = "ejemplo@gmail.com"
     private lateinit var tema : String
     private lateinit var mensaje : String
 
-    // MENSAJE
+    // MENSAJE ESCUCHADO
     private lateinit var mensajeEscuchado : String
+    private lateinit var mensajeComprobado : String
+
+    // CONFIRMACION
+    private var comprobacion = false
+    private var comprobado = false
+
+    // PANTALLA ACTUAL
+    private lateinit var pantallaActual : Pantallas
+    enum class Pantallas {Mail, Subject, Message, Principal}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_email)
-        iniciarInsertarMail()
+        //iniciarInsertarMail() // Sirve para iniciar la pantalla de meter email. como ahora esta harcodeado no se muestra.
+        iniciarInsertarSubject()
     }
 
     private fun inicializarVistas() {
         textViewTexto = findViewById(R.id.textCorreo)
-        btnSpeak = findViewById(R.id.buttonSpeakMail)
-        btnSiguiente = findViewById(R.id.btnSiguiente)
-        btnSiguiente.visibility = View.GONE
+        mensajeComprobado = ""
+        mensajeEscuchado = ""
+        comprobado = false
+        comprobacion = false
     }
 
-    private fun actualizarVistas() {
-        textViewTexto.text = mensajeEscuchado
-        btnSiguiente.visibility = View.VISIBLE
-    }
-
+    /*
     private fun iniciarInsertarMail(){
         setContentView(R.layout.insertar_mail)
         inicializarVistas()
@@ -66,39 +69,40 @@ class EmailActivity : AppCompatActivity() {
             iniciarInsertarSubject()
         }
     }
+    */
 
     private fun iniciarInsertarSubject(){
         setContentView(R.layout.insertar_subject)
-
+        pantallaActual = Pantallas.Subject
         inicializarVistas()
 
-        btnSpeak.setOnClickListener {
+        do {
             iniciarReconocimientoDeVoz()
-        }
+            if (mensajeComprobado.equals("si", true)) comprobado = true
+        }while (!comprobado)
 
-        btnSiguiente.setOnClickListener {
-            tema = textViewTexto.text.toString()
-            iniciarInsertarMessage()
-        }
+        tema = textViewTexto.text.toString()
+        iniciarInsertarMessage()
     }
 
     private fun iniciarInsertarMessage(){
         setContentView(R.layout.insertar_message)
-
+        pantallaActual = Pantallas.Message
         inicializarVistas()
 
-        btnSpeak.setOnClickListener {
+        do {
             iniciarReconocimientoDeVoz()
-        }
+            if (mensajeComprobado.equals("si", true)) comprobado = true
+        }while (!comprobado)
 
-        btnSiguiente.setOnClickListener {
-            mensaje = textViewTexto.text.toString()
-            emailActivity()
-        }
+        mensaje = textViewTexto.text.toString()
+        emailActivity()
+
     }
 
     private fun emailActivity(){
         setContentView(R.layout.activity_email)
+        pantallaActual = Pantallas.Principal
 
         textTo = findViewById(R.id.textEmailTo)
         textTo.text = correo
@@ -113,8 +117,7 @@ class EmailActivity : AppCompatActivity() {
     }
 
     private fun sendMail() {
-        val mail = arrayOf("danielbuenonavarro@gmail.com")
-        //editTextMessage.text.toString()
+        val mail = arrayOf(correo)
         val subject = textSubject.text.toString()
         val message = editTextMessage.text.toString()
 
@@ -131,24 +134,47 @@ class EmailActivity : AppCompatActivity() {
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Need to speak")
+        if (!comprobacion) {
+            when(pantallaActual){
+                Pantallas.Mail -> intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Dame una direccion de correo")
+                Pantallas.Subject -> intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Cual quieres que sea el tema?")
+                Pantallas.Message -> intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Cual quieres que sea el mensaje a entregar?")
+                else -> {}
+            }
+            comprobacion = true
+        }else{
+            when(pantallaActual){
+                Pantallas.Mail -> intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Seguro que quieres que tu $correo sea $mensajeEscuchado? \n Di 'Si' o 'confirmar' para aceptar")
+                Pantallas.Subject -> intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Seguro que quieres que tu $tema sea $mensajeEscuchado? \n Di 'Si' o 'confirmar' para aceptar")
+                Pantallas.Message -> intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Seguro que quieres que tu $mensaje sea $mensajeEscuchado? \n Di 'Si' o 'confirmar' para aceptar")
+                else -> {}
+            }
+            comprobacion = false
+        }
 
         try {
             startActivityForResult(intent, REQ_CODE)
         } catch (e: ActivityNotFoundException) {
-            Toast.makeText(applicationContext, "Sorry your device not supported", Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, "Sorry your device not supported", Toast.LENGTH_LONG).show()
         }
     }
 
-    @Deprecated("Deprecated in Kotlin")
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             REQ_CODE -> {
                 if (resultCode == RESULT_OK && data != null) {
-                    val result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).toString()
-                    mensajeEscuchado = result.substring(1, result.length - 1) // Se hace un substring porque viene en formato [texto] y le queremos quitar los corchetes
-                    actualizarVistas()
+                    var result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).toString()
+                    result = result.substring(1, result.length - 1)
+
+                    if (!comprobacion) {
+                        if (comprobado) mensajeComprobado = result
+                        else{
+                            mensajeEscuchado = result
+                            textViewTexto.text = mensajeEscuchado
+                        }
+                    }else iniciarReconocimientoDeVoz()
 
                     // ESTO ES PARA VER SI EL MENSAJE SE RECOGE CORRECTAMENTE, ELIMINAR CUANDO ENTREGUEMOS
                     Log.i("Mensaje", mensajeEscuchado) // filtrar por Mensaje en el logcat para ver este log correctamente
