@@ -2,6 +2,7 @@ package com.example.speechtotext
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.util.Log
@@ -34,8 +35,8 @@ class EmailActivity : AppCompatActivity() {
     private lateinit var mensajeComprobado : String
 
     // CONFIRMACION
-    private var comprobacion = false
-    private var comprobado = false
+    private var irAComprobacion = false
+    private var elMensajeHaSidoComprobado = false
 
     // PANTALLA ACTUAL
     private lateinit var pantallaActual : Pantallas
@@ -51,8 +52,8 @@ class EmailActivity : AppCompatActivity() {
         textViewTexto = findViewById(R.id.textCorreo)
         mensajeComprobado = ""
         mensajeEscuchado = ""
-        comprobado = false
-        comprobacion = false
+        elMensajeHaSidoComprobado = false
+        irAComprobacion = false
     }
 
     /*
@@ -78,8 +79,7 @@ class EmailActivity : AppCompatActivity() {
 
         do {
             iniciarReconocimientoDeVoz()
-            if (mensajeComprobado.equals("si", true)) comprobado = true
-        }while (!comprobado)
+        }while (!elMensajeHaSidoComprobado)
 
         tema = textViewTexto.text.toString()
         iniciarInsertarMessage()
@@ -92,12 +92,10 @@ class EmailActivity : AppCompatActivity() {
 
         do {
             iniciarReconocimientoDeVoz()
-            if (mensajeComprobado.equals("si", true)) comprobado = true
-        }while (!comprobado)
+        }while (!elMensajeHaSidoComprobado)
 
         mensaje = textViewTexto.text.toString()
         emailActivity()
-
     }
 
     private fun emailActivity(){
@@ -121,27 +119,30 @@ class EmailActivity : AppCompatActivity() {
         val subject = textSubject.text.toString()
         val message = editTextMessage.text.toString()
 
-        intent = Intent(Intent.ACTION_SEND)
+        intent.data = Uri.parse("mailto:") // Usamos ACTION_SENDTO y establecemos el esquema como "mailto:"
         intent.putExtra(Intent.EXTRA_EMAIL, mail)
         intent.putExtra(Intent.EXTRA_SUBJECT, subject)
         intent.putExtra(Intent.EXTRA_TEXT, message)
-        intent.type = "message/rfc822"
 
-        startActivity(Intent.createChooser(intent, "Elige una aplicación para enviar el mensaje"))
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
+        } else {
+            Toast.makeText(this, "No hay aplicaciones de correo disponibles", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun iniciarReconocimientoDeVoz() {
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
-        if (!comprobacion) {
+        if (!irAComprobacion) {
             when(pantallaActual){
                 Pantallas.Mail -> intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Dame una direccion de correo")
                 Pantallas.Subject -> intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Cual quieres que sea el tema?")
                 Pantallas.Message -> intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Cual quieres que sea el mensaje a entregar?")
                 else -> {}
             }
-            comprobacion = true
+
         }else{
             when(pantallaActual){
                 Pantallas.Mail -> intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Seguro que quieres que tu $correo sea $mensajeEscuchado? \n Di 'Si' o 'confirmar' para aceptar")
@@ -149,7 +150,6 @@ class EmailActivity : AppCompatActivity() {
                 Pantallas.Message -> intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Seguro que quieres que tu $mensaje sea $mensajeEscuchado? \n Di 'Si' o 'confirmar' para aceptar")
                 else -> {}
             }
-            comprobacion = false
         }
 
         try {
@@ -168,13 +168,14 @@ class EmailActivity : AppCompatActivity() {
                     var result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).toString()
                     result = result.substring(1, result.length - 1)
 
-                    if (!comprobacion) {
-                        if (comprobado) mensajeComprobado = result
-                        else{
-                            mensajeEscuchado = result
-                            textViewTexto.text = mensajeEscuchado
-                        }
-                    }else iniciarReconocimientoDeVoz()
+                    if (!irAComprobacion) {
+                        mensajeEscuchado = result
+                        textViewTexto.text = mensajeEscuchado
+                        irAComprobacion = true
+                    } else {
+                        elMensajeHaSidoComprobado = result.equals("si", ignoreCase = true)
+                        irAComprobacion = false
+                    }
 
                     // ESTO ES PARA VER SI EL MENSAJE SE RECOGE CORRECTAMENTE, ELIMINAR CUANDO ENTREGUEMOS
                     Log.i("Mensaje", mensajeEscuchado) // filtrar por Mensaje en el logcat para ver este log correctamente
