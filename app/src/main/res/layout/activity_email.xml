@@ -3,53 +3,82 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:padding="48dp"
     tools:context=".EmailActivity">
 
-    <!--CORREO ELECTRONICO-->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/contentHeigh"
-        android:text="@string/to" />
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="5dp"
+        android:background="@drawable/hr" />
 
     <TextView
-        android:id="@+id/textEmailTo"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/contentHeigh"
-        android:text=""/>
-
-    <!--TEMA DEL CORREO-->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/contentHeigh"
-        android:text="@string/TextViewSubject" />
-
-    <TextView
-        android:id="@+id/textEmailSubject"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/contentHeigh"
-        android:text=""/>
-
-    <!--MENSAJE DEL CORREO-->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/contentHeigh"
-        android:text="@string/TextViewMessage" />
-
-    <TextView
-        android:id="@+id/textEmailMessage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:lines="10"
-        android:gravity="start|top"/>
-
-    <!--BOTON ENVIAR-->
-    <Button
-        android:id="@+id/emailButtonSend"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="@string/enviar" />
+        android:gravity="center_vertical"
+        android:paddingHorizontal="8dp"
+        android:text="@string/to"
+        android:textSize="24sp" />
 
+    <TextView
+        android:id="@+id/TextViewCorreo"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="" />
 
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="5dp"
+        android:background="@drawable/hr" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="8dp"
+        android:text="@string/TextViewSubject"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/TextViewSubject"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="" />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="5dp"
+        android:background="@drawable/hr" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="8dp"
+        android:text="@string/TextViewMessage"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/TextViewMessage"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="" />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="5dp"
+        android:background="@drawable/hr" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/black"
+        android:backgroundTint="@color/black"
+        android:text="Enviar" />
 </LinearLayout>

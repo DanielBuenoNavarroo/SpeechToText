@@ -16,114 +16,63 @@ import java.util.Locale
 class EmailActivity : AppCompatActivity() {
     private val REQ_CODE = 100
 
-    // VARIABLES UTILIZADAS EN insertar_mail.xml, insertar_subject.xml y insertar_message.xml
-    private lateinit var textViewTexto : TextView
-
-    // VARIABLES UTILIZADAS EN activity_mail.xml
-    private lateinit var textTo: TextView
-    private lateinit var textSubject: TextView
-    private lateinit var editTextMessage: TextView
+    private lateinit var textViewCorreo: TextView
+    private lateinit var textViewSubject: TextView
+    private lateinit var textViewMessage: TextView
     private lateinit var btnSend: Button
 
-    // VARIABLES DEL CORREO
+    private lateinit var mensajeEscuchado: String
+    private lateinit var pedir: String
+    private val pedirSubject = "Cual quieres que sea el tema?"
+    private val pedirMsg = "Cual quieres que sea el mensaje a entregar?"
+
     private val correo = "ejemplo@gmail.com"
-    private lateinit var tema : String
-    private lateinit var mensaje : String
-
-    // MENSAJE ESCUCHADO
-    private lateinit var mensajeEscuchado : String
-    private lateinit var mensajeComprobado : String
-
-    // CONFIRMACION
-    private var irAComprobacion = false
-    private var elMensajeHaSidoComprobado = false
-
-    // PANTALLA ACTUAL
-    private lateinit var pantallaActual : Pantallas
-    enum class Pantallas {Mail, Subject, Message, Principal}
+    private var tema = ""
+    private var mensaje = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //iniciarInsertarMail() // Sirve para iniciar la pantalla de meter email. como ahora esta harcodeado no se muestra.
-        iniciarInsertarSubject()
-    }
-
-    private fun inicializarVistas() {
-        textViewTexto = findViewById(R.id.textCorreo)
-        mensajeComprobado = ""
-        mensajeEscuchado = ""
-        elMensajeHaSidoComprobado = false
-        irAComprobacion = false
-    }
-
-    /*
-    private fun iniciarInsertarMail(){
-        setContentView(R.layout.insertar_mail)
-        inicializarVistas()
-
-        btnSpeak.setOnClickListener {
-            iniciarReconocimientoDeVoz()
-        }
-
-        btnSiguiente.setOnClickListener {
-            correo = textViewTexto.text.toString()
-            iniciarInsertarSubject()
-        }
-    }
-    */
-
-    private fun iniciarInsertarSubject(){
-        setContentView(R.layout.insertar_subject)
-        pantallaActual = Pantallas.Subject
-        inicializarVistas()
-
-        do {
-            iniciarReconocimientoDeVoz()
-        }while (!elMensajeHaSidoComprobado)
-
-        tema = textViewTexto.text.toString()
-        iniciarInsertarMessage()
-    }
-
-    private fun iniciarInsertarMessage(){
-        setContentView(R.layout.insertar_message)
-        pantallaActual = Pantallas.Message
-        inicializarVistas()
-
-        do {
-            iniciarReconocimientoDeVoz()
-        }while (!elMensajeHaSidoComprobado)
-
-        mensaje = textViewTexto.text.toString()
-        emailActivity()
-    }
-
-    private fun emailActivity(){
         setContentView(R.layout.activity_email)
-        pantallaActual = Pantallas.Principal
 
-        textTo = findViewById(R.id.textEmailTo)
-        textTo.text = correo
-        textSubject = findViewById(R.id.textEmailSubject)
-        textSubject.text = tema
-        editTextMessage = findViewById(R.id.textEmailMessage)
-        editTextMessage.text = mensaje
-        btnSend = findViewById(R.id.emailButtonSend)
+        textViewCorreo = findViewById(R.id.TextViewCorreo)
+        textViewCorreo.text = correo
+        textViewSubject = findViewById(R.id.TextViewSubject)
+        textViewMessage = findViewById(R.id.TextViewMessage)
+        btnSend = findViewById(R.id.button)
+
+        pedirSubject()
+    }
+
+    private fun pedirSubject() {
+        Log.i("mensaje", "sub")
+        pedir = pedirSubject
+        iniciarReconocimientoDeVoz()
+    }
+
+    private fun pedirMessage() {
+        Log.i("mensaje", "msgg")
+        pedir = pedirMsg
+        iniciarReconocimientoDeVoz()
+    }
+
+    private fun mailActivity() {
+        Log.i("mensaje", "email")
+        textViewSubject.text = tema
+        textViewMessage.text = mensaje
         btnSend.setOnClickListener {
             sendMail()
         }
     }
 
     private fun sendMail() {
-        val mail = arrayOf(correo)
-        val subject = textSubject.text.toString()
-        val message = editTextMessage.text.toString()
-
+        intent = Intent(Intent.ACTION_SEND)
         intent.data = Uri.parse("mailto:") // Usamos ACTION_SENDTO y establecemos el esquema como "mailto:"
-        intent.putExtra(Intent.EXTRA_EMAIL, mail)
-        intent.putExtra(Intent.EXTRA_SUBJECT, subject)
-        intent.putExtra(Intent.EXTRA_TEXT, message)
+        intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(correo))
+        intent.putExtra(Intent.EXTRA_SUBJECT, tema)
+        intent.putExtra(Intent.EXTRA_TEXT, mensaje)
+        intent.type = "message/rfc822"
 
+        startActivity(Intent.createChooser(intent, "Elige una aplicación para enviar el mensaje"))
         if (intent.resolveActivity(packageManager) != null) {
             startActivity(intent)
         } else {
@@ -135,50 +84,30 @@ class EmailActivity : AppCompatActivity() {
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
-        if (!irAComprobacion) {
-            when(pantallaActual){
-                Pantallas.Mail -> intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Dame una direccion de correo")
-                Pantallas.Subject -> intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Cual quieres que sea el tema?")
-                Pantallas.Message -> intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Cual quieres que sea el mensaje a entregar?")
-                else -> {}
-            }
-
-        }else{
-            when(pantallaActual){
-                Pantallas.Mail -> intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Seguro que quieres que tu $correo sea $mensajeEscuchado? \n Di 'Si' o 'confirmar' para aceptar")
-                Pantallas.Subject -> intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Seguro que quieres que tu $tema sea $mensajeEscuchado? \n Di 'Si' o 'confirmar' para aceptar")
-                Pantallas.Message -> intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Seguro que quieres que tu $mensaje sea $mensajeEscuchado? \n Di 'Si' o 'confirmar' para aceptar")
-                else -> {}
-            }
-        }
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, pedir)
 
         try {
             startActivityForResult(intent, REQ_CODE)
         } catch (e: ActivityNotFoundException) {
-            Toast.makeText(applicationContext, "Sorry your device not supported", Toast.LENGTH_LONG).show()
+            Toast.makeText(applicationContext, "Sorry your device not supported", Toast.LENGTH_SHORT).show()
         }
     }
 
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode) {
-            REQ_CODE -> {
-                if (resultCode == RESULT_OK && data != null) {
-                    var result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).toString()
-                    result = result.substring(1, result.length - 1)
+        if (requestCode == REQ_CODE && resultCode == RESULT_OK && data != null) {
+            val results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+            if (!results.isNullOrEmpty()) {
+                mensajeEscuchado = results[0]
+                Log.i("mensaje", mensajeEscuchado)
 
-                    if (!irAComprobacion) {
-                        mensajeEscuchado = result
-                        textViewTexto.text = mensajeEscuchado
-                        irAComprobacion = true
-                    } else {
-                        elMensajeHaSidoComprobado = result.equals("si", ignoreCase = true)
-                        irAComprobacion = false
-                    }
-
-                    // ESTO ES PARA VER SI EL MENSAJE SE RECOGE CORRECTAMENTE, ELIMINAR CUANDO ENTREGUEMOS
-                    Log.i("Mensaje", mensajeEscuchado) // filtrar por Mensaje en el logcat para ver este log correctamente
+                if (pedir == pedirSubject) {
+                    tema = mensajeEscuchado
+                    pedirMessage()
+                } else if (pedir == pedirMsg) {
+                    mensaje = mensajeEscuchado
+                    mailActivity()
                 }
             }
         }

@@ -3,10 +3,79 @@
 
     <!--STRINGS DE EmailActivity-->
     <string name="to">To:</string>
-    <string name="Email">danielbuenonavarro@gmail.com</string>
     <string name="TextViewSubject">Subject:</string>
-    <string name="msgSubject">Ponme un 10</string>
     <string name="TextViewMessage">Message:</string>
-    <string name="msgMessage">Mensaje</string>
     <string name="enviar">SEND</string>
+
+    <!--Adivinanzas-->
+    <string-array name="adivinanzas">
+        <item>Es pequeño como una pera, pero alumbra la casa entera</item> <!--foco-->
+        <item>Si me dejas caer, seguro que me parto. Dame una sonrisa, y siempre te devolveré otra. ¿Qué soy?</item> <!--espejo-->
+        <item>Hablo sin boca y oigo sin oídos. No tengo cuerpo, pero cobro vida con el viento. ¿Qué soy?</item> <!--Eco-->
+        <item>Mides mi vida en horas y yo te sirvo expirando. Soy rápido cuando estoy delgado y lento cuando estoy gordo. El viento es mi enemigo.</item> <!--Vela-->
+        <item>¿Qué está siempre delante de ti, pero no se ve?</item> <!--Futuro-->
+        <item>¿Qué desaparece en cuanto se pronuncia su nombre?</item> <!--Silencio-->
+        <item>Esto te pertenece, pero todos los demás lo usan más que tú</item> <!--Nombre-->
+        <item>¿Qué es más fuerte que el acero, pero no puede soportar el sol?</item> <!--Hielo-->
+        <item>Cuanto más hay, menos se ve. ¿Qué soy?</item> <!--Oscuridad-->
+        <item>Doce señoras, todas con medias y sin zapatos.</item> <!--Horas-->
+    </string-array>
+
+    <string-array name="respuesta1">
+        <item>el foco</item>
+        <item>foco</item>
+        <item>un foco</item>
+        <item>focos</item>
+    </string-array>
+
+    <string-array name="respuesta2">
+        <item>el espejo</item>
+        <item>espejo</item>
+        <item>un espejo</item>
+        <item>espejos</item>
+    </string-array>
+
+    <string-array name="respuesta3">
+        <item>el eco</item>
+        <item>eco</item>
+    </string-array>
+
+    <string-array name="respuesta4">
+        <item>vela</item>
+        <item>una vela</item>
+        <item>velas</item>
+    </string-array>
+
+    <string-array name="respuesta5">
+        <item>futuro</item>
+        <item>el futuro</item>
+    </string-array>
+
+    <string-array name="respuesta6">
+        <item>silencio</item>
+        <item>el silencio</item>
+    </string-array>
+
+    <string-array name="respuesta7">
+        <item>mi nombre</item>
+        <item>tu nombre</item>
+        <item>un nombre</item>
+        <item>el nombre</item>
+        <item>nombre</item>
+    </string-array>
+
+    <string-array name="respuesta8">
+        <item>hielo</item>
+        <item>el hielo</item>
+    </string-array>
+
+    <string-array name="respuesta9">
+        <item>la oscuridad</item>
+        <item>ocuridad</item>
+    </string-array>
+
+    <string-array name="respuesta10">
+        <item>horas</item>
+        <item>las horas</item>
+    </string-array>
 </resources>
