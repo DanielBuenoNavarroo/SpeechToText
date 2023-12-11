@@ -22,32 +22,30 @@
 
     <Button
         android:id="@+id/darAdivinanza"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/activityAdivinanzasCompWidth"
+        android:layout_height="@dimen/activityAdivinanzasCompHeigh"
         android:layout_marginBottom="16dp"
         android:backgroundTint="@color/black"
-        android:text="Dame una Adivinanza"
+        android:text="@string/dame_una_adivinanza"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/resolver"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/resolver"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/activityAdivinanzasCompWidth"
+        android:layout_height="@dimen/activityAdivinanzasCompHeigh"
         android:layout_marginBottom="128dp"
         android:backgroundTint="@color/black"
-        android:text="Resolver"
+        android:text="@string/resolver"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

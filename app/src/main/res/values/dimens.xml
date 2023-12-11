@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="contentHeigh">30dp</dimen>
+    <dimen name="activityMainCompHeigh">50dp</dimen>
+    <dimen name="activityEmailCompHeigh">50dp</dimen>
+    <dimen name="activityEmailHrHeigh">6dp</dimen>
+    <dimen name="activityChooseCompWidth">200dp</dimen>
+    <dimen name="activityChooseCompHeigh">80dp</dimen>
+    <dimen name="activityAdivinanzasCompWidth">250dp</dimen>
+    <dimen name="activityAdivinanzasCompHeigh">50dp</dimen>
 </resources>

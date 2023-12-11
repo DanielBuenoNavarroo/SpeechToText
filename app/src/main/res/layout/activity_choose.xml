@@ -6,39 +6,39 @@
 
     <Button
         android:id="@+id/btnAdv"
-        android:layout_width="200dp"
-        android:layout_height="80dp"
+        android:layout_width="@dimen/activityChooseCompWidth"
+        android:layout_height="@dimen/activityChooseCompHeigh"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="250dp"
         android:backgroundTint="#2ecc71"
-        android:text="Adivinanzas"
+        android:text="@string/adivinanzas"
         android:textColor="#ffffff"
         android:textSize="18sp"
         android:textStyle="bold" />
 
     <Button
         android:id="@+id/btnMail"
-        android:layout_width="200dp"
-        android:layout_height="80dp"
+        android:layout_width="@dimen/activityChooseCompWidth"
+        android:layout_height="@dimen/activityChooseCompHeigh"
         android:layout_below="@+id/btnAdv"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="32dp"
         android:backgroundTint="#3450DB"
-        android:text="Mail"
+        android:text="@string/mail"
         android:textColor="#ffffff"
         android:textSize="18sp"
         android:textStyle="bold" />
 
     <Button
         android:id="@+id/btnBackground"
-        android:layout_width="200dp"
-        android:layout_height="80dp"
+        android:layout_width="@dimen/activityChooseCompWidth"
+        android:layout_height="@dimen/activityChooseCompHeigh"
         android:layout_below="@+id/btnMail"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="32dp"
         android:backgroundTint="#e74c3c"
-        android:text="Background"
+        android:text="@string/background"
         android:textColor="#ffffff"
         android:textSize="18sp"
         android:textStyle="bold" />

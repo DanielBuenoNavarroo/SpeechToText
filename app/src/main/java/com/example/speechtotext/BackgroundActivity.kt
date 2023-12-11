@@ -41,7 +41,7 @@ class BackgroundActivity : AppCompatActivity() {
             "azul verdoso", "teal" -> "#008080"
             "fuxia", "fuchsia" -> "#FF00FF"
             "morado", "purple" -> "#800080"
-            else -> "0xE6E6FA" // color lavanda
+            else -> "0xE6E6FA"
         }
         window.decorView.setBackgroundColor(Color.parseColor(color))
     }

@@ -3,13 +3,12 @@ package com.example.speechtotext
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.speech.RecognizerIntent
-import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import java.util.Locale
 
 class AdivinanzasActivity : AppCompatActivity() {
@@ -25,7 +24,7 @@ class AdivinanzasActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_adivinanzas)
-        window.decorView.setBackgroundColor(Color.parseColor("#FFFFFF"))
+        window.decorView.setBackgroundColor(Color.parseColor(resources.getColor(R.color.white).toString()))
 
         adivinanzas = resources.getStringArray(R.array.adivinanzas)
         listaDeRespuestas = mutableListOf(
@@ -59,7 +58,7 @@ class AdivinanzasActivity : AppCompatActivity() {
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, adivinanzas[nAdivinanza])
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Dame tu respuesta")
 
         try {
             startActivityForResult(intent, REQ_CODE)
@@ -77,13 +76,11 @@ class AdivinanzasActivity : AppCompatActivity() {
                     val result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).toString()
                     val mensajeEscuchado = result.substring(1, result.length - 1)
                     if (listaDeRespuestas[nAdivinanza].contains(mensajeEscuchado.lowercase())){
-                        Log.i("mensg", "si")
                         window.decorView.setBackgroundColor(Color.parseColor("#00FF00"))
-                        textResultado.text = "Correcto!!! :D"
+                        textResultado.text = resources.getString(R.string.correcto)
                     }else{
-                        Log.i("mensg", "no")
                         window.decorView.setBackgroundColor(Color.parseColor("#FF0000"))
-                        textResultado.text = "Incorrecto!!! :("
+                        textResultado.text = resources.getString(R.string.incorrecto)
                     }
                 }
             }

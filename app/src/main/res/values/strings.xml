@@ -1,12 +1,41 @@
 <resources>
     <string name="app_name">SpeechToText</string>
 
+    <!--STRINGS DE MainActivity-->
+    <!--XML-->
+    <string name="task_02_grupo_3">TASK[02] GRUPO 3</string>
+    <string name="empezar">Empezar</string>
+
+
+    <!--STRINGS DE ChooseActivity-->
+    <!--XML-->
+    <string name="adivinanzas">Adivinanzas</string>
+    <string name="background">Background</string>
+    <string name="mail">Mail</string>
+
+
+    <!--STRINGS DE BackgroundActivity-->
+    <!--XML-->
+    <string name="cambiar_background">Cambiar Background</string>
+
+
     <!--STRINGS DE EmailActivity-->
+    <!--XML-->
     <string name="to">To:</string>
     <string name="TextViewSubject">Subject:</string>
     <string name="TextViewMessage">Message:</string>
-    <string name="enviar">SEND</string>
+    <string name="enviar">Enviar</string>
+    <!--EmailActivity.kt-->
+    <string name="pedirSubject">Cual quieres que sea el tema?</string>
+    <string name="pedirMsg">Cual quieres que sea el mensaje a entregar?</string>
+    <string name="correcto">Correcto!!! :D</string>
+    <string name="incorrecto">Incorrecto!!! :(</string>
 
+
+    <!--Strings de AdivinanzasActivity-->
+    <!--XML-->
+    <string name="dame_una_adivinanza">Dame una Adivinanza</string>
+    <string name="resolver">Resolver</string>
     <!--Adivinanzas-->
     <string-array name="adivinanzas">
         <item>Es pequeño como una pera, pero alumbra la casa entera</item> <!--foco-->

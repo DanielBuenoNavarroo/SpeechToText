@@ -5,8 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.speech.RecognizerIntent
-import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -23,8 +21,8 @@ class EmailActivity : AppCompatActivity() {
 
     private lateinit var mensajeEscuchado: String
     private lateinit var pedir: String
-    private val pedirSubject = "Cual quieres que sea el tema?"
-    private val pedirMsg = "Cual quieres que sea el mensaje a entregar?"
+    private lateinit var pedirSubject : String
+    private lateinit var pedirMsg : String
 
     private val correo = "ejemplo@gmail.com"
     private var tema = ""
@@ -40,23 +38,23 @@ class EmailActivity : AppCompatActivity() {
         textViewMessage = findViewById(R.id.TextViewMessage)
         btnSend = findViewById(R.id.button)
 
+        pedirSubject = resources.getString(R.string.pedirSubject)
+        pedirMsg = resources.getString(R.string.pedirMsg)
+
         pedirSubject()
     }
 
     private fun pedirSubject() {
-        Log.i("mensaje", "sub")
         pedir = pedirSubject
         iniciarReconocimientoDeVoz()
     }
 
     private fun pedirMessage() {
-        Log.i("mensaje", "msgg")
         pedir = pedirMsg
         iniciarReconocimientoDeVoz()
     }
 
     private fun mailActivity() {
-        Log.i("mensaje", "email")
         textViewSubject.text = tema
         textViewMessage.text = mensaje
         btnSend.setOnClickListener {
@@ -100,7 +98,6 @@ class EmailActivity : AppCompatActivity() {
             val results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
             if (!results.isNullOrEmpty()) {
                 mensajeEscuchado = results[0]
-                Log.i("mensaje", mensajeEscuchado)
 
                 if (pedir == pedirSubject) {
                     tema = mensajeEscuchado
