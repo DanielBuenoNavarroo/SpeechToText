@@ -11,7 +11,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        btnSiguiente = findViewById(R.id.darAdivinanza)
+        btnSiguiente = findViewById(R.id.empezar)
         btnSiguiente.setOnClickListener {
             intent = Intent(this@MainActivity, ChooseActivity::class.java)
             startActivity(intent)
