@@ -13,7 +13,7 @@
         android:layout_marginTop="250dp"
         android:backgroundTint="#2ecc71"
         android:text="@string/adivinanzas"
-        android:textColor="#ffffff"
+        android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold" />
 
@@ -26,7 +26,7 @@
         android:layout_marginTop="32dp"
         android:backgroundTint="#3450DB"
         android:text="@string/mail"
-        android:textColor="#ffffff"
+        android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold" />
 
@@ -39,7 +39,7 @@
         android:layout_marginTop="32dp"
         android:backgroundTint="#e74c3c"
         android:text="@string/background"
-        android:textColor="#ffffff"
+        android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold" />
 </RelativeLayout>
